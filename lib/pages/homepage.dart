@@ -1,6 +1,7 @@
 import 'package:crypto_pay/constraints/themes.dart';
 import 'package:crypto_pay/pages/dashboard/dashboard_page.dart';
 import 'package:crypto_pay/pages/navigation_drawer/navigation_drawer.dart';
+import 'package:crypto_pay/pages/nftMarket/nft_market.dart';
 import 'package:crypto_pay/pages/wallet/wallet_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,16 +14,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   PageController pageController=PageController(viewportFraction: 1,);
+  PageController pageControllerForWallet=PageController(viewportFraction: 1,);
 
   @override
   void initState() {
-
+    pageController.addListener(() {
+      pageControllerForWallet.jumpToPage(pageController.page!.toInt());
+    });
     super.initState();
   }
 
   @override
   void dispose() {
     pageController.dispose();
+    pageControllerForWallet.dispose();
     super.dispose();
   }
 
@@ -53,8 +58,8 @@ class _HomePageState extends State<HomePage> {
                 controller: pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
+                  const NFTMarket(),
                   const DashBoardPage(),
-                  Container(color: Colors.green,),
                   Container(color: Colors.yellow,),
                   Container(color: Colors.red,),
                 ],
@@ -73,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                   bottomRight: Radius.circular(15),
                 ),
               ),
-              child: const WalletPage(),
+              child: WalletPage(pageController: pageControllerForWallet,),
             ),
           ),
         ],

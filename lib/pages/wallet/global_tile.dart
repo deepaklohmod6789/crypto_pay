@@ -1,20 +1,17 @@
-import 'package:crypto_pay/constraints/themes.dart';
 import 'package:flutter/material.dart';
 
-class Transaction extends StatelessWidget {
+class GlobalTile extends StatelessWidget {
   final String image;
   final String heading;
-  final String timeStamp;
-  final String value;
-  final bool isDebit;
+  final String content;
+  final Text suffixText;
 
-  const Transaction({
+  const GlobalTile({
     Key? key,
     required this.image,
     required this.heading,
-    required this.timeStamp,
-    required this.value,
-    required this.isDebit,
+    required this.content,
+    required this.suffixText,
   }) : super(key: key);
 
   @override
@@ -35,7 +32,11 @@ class Transaction extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset('assets/$image',height: 35,),
+          CircleAvatar(
+            radius: 17.5,
+            backgroundColor: Colors.transparent,
+            backgroundImage: AssetImage('assets/$image'),
+          ),
           const SizedBox(width: 7,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,7 +50,7 @@ class Transaction extends StatelessWidget {
               ),
               const SizedBox(height: 3,),
               Text(
-                timeStamp,
+                content,
                 style: const TextStyle(
                   fontSize: 9,
                   color: Colors.black45,
@@ -58,13 +59,7 @@ class Transaction extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: 14,
-              color: isDebit?Themes.secondaryColor:Themes.primaryColor,
-            ),
-          ),
+          suffixText,
         ],
       ),
     );

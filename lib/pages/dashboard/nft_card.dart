@@ -20,8 +20,8 @@ class NFTCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 265,
-      width: 250,
+      height: 230,
+      width: 180,
       child: Card(
         elevation: 1,
         shape: RoundedRectangleBorder(
@@ -37,13 +37,20 @@ class NFTCard extends StatelessWidget {
                 children: [
                   Container(
                     width: double.infinity,
-                    height: 150,
+                    height: 120,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
                         image: NetworkImage('assets/nft/$nftImage'),
                         fit: BoxFit.cover,
                       ),
+                      boxShadow: const <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 7.0,
+                          offset: Offset(0.0, 4),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 10,),
@@ -55,6 +62,7 @@ class NFTCard extends StatelessWidget {
                         Text(
                           nftName,
                           style: const TextStyle(
+                            fontSize: 13,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -64,12 +72,12 @@ class NFTCard extends StatelessWidget {
                             Text(
                               username,
                               style: const TextStyle(
-                                fontSize: 10,
+                                fontSize: 8,
                                 color: Colors.black45,
                               ),
                             ),
                             CircleAvatar(
-                              radius: 12,
+                              radius: 11,
                               backgroundImage: NetworkImage(ownerImage),
                             ),
                           ],

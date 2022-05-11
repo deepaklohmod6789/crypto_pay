@@ -1,10 +1,12 @@
 import 'package:crypto_pay/constraints/themes.dart';
+import 'package:crypto_pay/pages/nftMarket/your_nfts.dart';
 import 'package:crypto_pay/pages/wallet/my_card.dart';
-import 'package:crypto_pay/pages/wallet/transaction.dart';
+import 'package:crypto_pay/pages/dashboard/recent_transaction.dart';
 import 'package:flutter/material.dart';
 
 class WalletPage extends StatefulWidget {
-  const WalletPage({Key? key}) : super(key: key);
+  final PageController pageController;
+  const WalletPage({Key? key,required this.pageController}) : super(key: key);
 
   @override
   State<WalletPage> createState() => _WalletPageState();
@@ -32,10 +34,10 @@ class _WalletPageState extends State<WalletPage> {
         ),
       ),
       style: TextButton.styleFrom(
-        backgroundColor: color,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        )
+          backgroundColor: color,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          )
       ),
     );
   }
@@ -100,36 +102,20 @@ class _WalletPageState extends State<WalletPage> {
           ],
         ),
         const SizedBox(height: 30,),
-        const Text(
-          "Recent Transactions",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+        Expanded(
+          child: PageView(
+            controller: widget.pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              const RecentTransaction(),
+              const YourNFTs(),
+              Container(color: Colors.yellow,),
+              Container(color: Colors.red,),
+              Container(color: Colors.green,),
+            ],
           ),
         ),
-        const SizedBox(height: 20,),
-        const Transaction(
-          image: 'bitcoin.png',
-          heading: 'Buy Bitcoin',
-          timeStamp: 'Today',
-          value: '-0.1 Eth',
-          isDebit: true,
-        ),
-        const SizedBox(height: 8,),
-        const Transaction(
-          image: 'bitcoin.png',
-          heading: 'Sell Bitcoin',
-          timeStamp: 'Today',
-          value: '+0.05 Eth',
-          isDebit: false,
-        ),
-        const SizedBox(height: 8,),
-        const Transaction(
-          image: 'bitcoin.png',
-          heading: 'Sell Bitcoin',
-          timeStamp: 'Today',
-          value: '+0.05 Eth',
-          isDebit: false,
-        ),
+
       ],
     );
   }

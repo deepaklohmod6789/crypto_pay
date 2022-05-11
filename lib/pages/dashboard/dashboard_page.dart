@@ -145,7 +145,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
           ),
           const SizedBox(height: 7,),
           SizedBox(
-            height: 265,
+            height: 230,
             width: double.infinity,
             child: ListView(
               scrollDirection: Axis.horizontal,
