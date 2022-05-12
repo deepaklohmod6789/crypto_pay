@@ -1,5 +1,6 @@
 import 'package:crypto_pay/constraints/themes.dart';
 import 'package:crypto_pay/pages/dashboard/dashboard_page.dart';
+import 'package:crypto_pay/pages/lottery/lottery_page.dart';
 import 'package:crypto_pay/pages/navigation_drawer/navigation_drawer.dart';
 import 'package:crypto_pay/pages/nftMarket/nft_market.dart';
 import 'package:crypto_pay/pages/wallet/wallet_page.dart';
@@ -58,8 +59,9 @@ class _HomePageState extends State<HomePage> {
                 controller: pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  const NFTMarket(),
                   const DashBoardPage(),
+                  const NFTMarket(),
+                  const LotteryPage(),
                   Container(color: Colors.yellow,),
                   Container(color: Colors.red,),
                 ],

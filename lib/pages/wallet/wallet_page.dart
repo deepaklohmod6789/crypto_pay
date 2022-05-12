@@ -109,7 +109,7 @@ class _WalletPageState extends State<WalletPage> {
             children: [
               const RecentTransaction(),
               const YourNFTs(),
-              Container(color: Colors.yellow,),
+              const RecentTransaction(),
               Container(color: Colors.red,),
               Container(color: Colors.green,),
             ],
