@@ -67,17 +67,17 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
         ),
         const SizedBox(height: 15,),
         NavButton(
-          onPressed: ()=>changePage(3),
+          onPressed: ()=>changePage(4),
           icon: Icons.person,
           buttonName: 'Your Profile',
-          isActive: widget.pageController.hasClients?widget.pageController.page==3:false,
+          isActive: widget.pageController.hasClients?widget.pageController.page==4:false,
         ),
         const SizedBox(height: 15,),
         NavButton(
-          onPressed: ()=>changePage(3),
+          onPressed: ()=>changePage(5),
           icon: Icons.settings,
-          buttonName: 'Settings      ',
-          isActive: widget.pageController.hasClients?widget.pageController.page==3:false,
+          buttonName: 'Contracts   ',
+          isActive: widget.pageController.hasClients?widget.pageController.page==5:false,
         ),
       ],
     );

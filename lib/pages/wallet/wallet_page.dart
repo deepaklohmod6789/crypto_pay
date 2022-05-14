@@ -89,7 +89,7 @@ class _WalletPageState extends State<WalletPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             reqSendButton(
-              title: 'Request',
+              title: 'Deposit',
               icon: Icons.arrow_downward_rounded,
               color: Themes.primaryColor,
             ),
@@ -106,12 +106,13 @@ class _WalletPageState extends State<WalletPage> {
           child: PageView(
             controller: widget.pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: [
-              const RecentTransaction(),
-              const YourNFTs(),
-              const RecentTransaction(),
-              Container(color: Colors.red,),
-              Container(color: Colors.green,),
+            children: const [
+              RecentTransaction(),
+              YourNFTs(),
+              RecentTransaction(),
+              RecentTransaction(),
+              RecentTransaction(),
+              RecentTransaction(),
             ],
           ),
         ),

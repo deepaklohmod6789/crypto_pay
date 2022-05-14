@@ -1,4 +1,5 @@
 import 'package:crypto_pay/constraints/themes.dart';
+import 'package:crypto_pay/pages/contracts/contract_page.dart';
 import 'package:crypto_pay/pages/dashboard/dashboard_page.dart';
 import 'package:crypto_pay/pages/lottery/lottery_page.dart';
 import 'package:crypto_pay/pages/navigation_drawer/navigation_drawer.dart';
@@ -63,7 +64,8 @@ class _HomePageState extends State<HomePage> {
                   const NFTMarket(),
                   const LotteryPage(),
                   Container(color: Colors.yellow,),
-                  Container(color: Colors.red,),
+                  Container(color: Colors.green,),
+                  const ContractPage(),
                 ],
               ),
             ),
