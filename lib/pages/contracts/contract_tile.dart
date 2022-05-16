@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:js' as js;
 
 class ContractTile extends StatelessWidget {
   final String image;
@@ -17,7 +18,7 @@ class ContractTile extends StatelessWidget {
     return Column(
       children: [
         TextButton(
-          onPressed: (){},
+          onPressed: ()=>js.context.callMethod('open', ['https://rinkeby.etherscan.io/address/$address']),
           style: TextButton.styleFrom(
             padding: const EdgeInsets.all(8),
             minimumSize: const Size(double.infinity, 60),

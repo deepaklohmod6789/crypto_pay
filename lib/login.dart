@@ -1,6 +1,8 @@
 import 'package:crypto_pay/constraints/themes.dart';
-import 'package:crypto_pay/services/dialogs.dart';
+import 'package:crypto_pay/services/metamask_auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'dart:js' as js;
+import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -59,7 +61,7 @@ class Login extends StatelessWidget {
                   Row(
                     children: [
                       TextButton(
-                        onPressed: ()=>Dialogs.createNFT(context),
+                        onPressed: ()=>js.context.callMethod('open', ['https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=en']),
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                           side: const BorderSide(color: Themes.primaryColor),
@@ -72,7 +74,10 @@ class Login extends StatelessWidget {
                       ),
                       const SizedBox(width: 20,),
                       TextButton(
-                        onPressed: (){},
+                        onPressed: (){
+                          final walletController = Get.put(MetaMaskAuthController());
+                          walletController.init();
+                        },
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                           backgroundColor: Themes.primaryColor,
