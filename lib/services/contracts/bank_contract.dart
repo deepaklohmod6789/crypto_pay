@@ -34,8 +34,7 @@ class BankContract{
         [],
         TransactionOverride(value: BigInt.from(fund)),
       );
-      final receipt = await tx.wait();
-      Dialogs.toast(receipt.transactionHash);
+      await tx.wait();
       return 'Success';
     } catch(e) {
       Dialogs.toast(e.toString());

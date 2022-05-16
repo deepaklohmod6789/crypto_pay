@@ -8,7 +8,7 @@ class Dialogs{
     Fluttertoast.showToast(
       msg: content,
       toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
+      gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: Colors.transparent,
       textColor: Colors.white,
