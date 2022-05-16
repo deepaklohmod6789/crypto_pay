@@ -1,22 +1,26 @@
+import 'package:crypto_pay/constraints/enumerations.dart';
 import 'package:crypto_pay/constraints/themes.dart';
 import 'package:crypto_pay/pages/nftMarket/your_nfts.dart';
 import 'package:crypto_pay/pages/wallet/my_card.dart';
 import 'package:crypto_pay/pages/dashboard/recent_transaction.dart';
+import 'package:crypto_pay/services/controllers/wallet_controller.dart';
+import 'package:crypto_pay/services/dialogs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
-class WalletPage extends StatefulWidget {
+class WalletPage extends StatelessWidget {
   final PageController pageController;
   const WalletPage({Key? key,required this.pageController}) : super(key: key);
 
-  @override
-  State<WalletPage> createState() => _WalletPageState();
-}
-
-class _WalletPageState extends State<WalletPage> {
-
-  Widget reqSendButton({required String title, required IconData icon, required Color color}){
+  Widget addTransferButton({
+    required String title,
+    required IconData icon,
+    required Color color,
+    required void Function() onPressed,
+  }){
     return TextButton.icon(
-      onPressed: (){},
+      onPressed: onPressed,
       icon: Container(
         padding: const EdgeInsets.all(5),
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -42,8 +46,179 @@ class _WalletPageState extends State<WalletPage> {
     );
   }
 
+  void depositFund(BuildContext context,WalletController walletController){
+    int fund=0;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text("Enter the amount of ether you want to submit"),
+          content: TextField(
+            decoration: const InputDecoration(
+              hintText: 'Amount in wei',
+              border: OutlineInputBorder(),
+            ),
+            keyboardType: TextInputType.number,
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+            onChanged: (String? value){
+              fund=int.parse(value!);
+            },
+          ),
+          actions: [
+            TextButton(
+              onPressed: (){
+                if(fund>0){
+                  Navigator.pop(context);
+                  walletController.addFund(fund);
+                } else {
+                  Dialogs.toast('Enter value to continue..');
+                }
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Themes.primaryColor,
+                primary: Colors.white,
+              ),
+              child: const Text(
+                "Deposit",
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void transferFund(BuildContext context,WalletController walletController){
+    Choice choice=Choice.walletTransfer;
+    int amount=0;
+    String address='';
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          actionsPadding: const EdgeInsets.symmetric(horizontal: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Text("Enter the details for transfer"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Amount in wei',
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                onChanged: (String? value){
+                  amount=int.parse(value!);
+                },
+              ),
+              const SizedBox(height: 20,),
+              TextField(
+                decoration: const InputDecoration(
+                  hintText: 'Receiver Address',
+                  border: OutlineInputBorder(),
+                ),
+                onChanged: (String? value){
+                  address=value!;
+                },
+              ),
+              StatefulBuilder(
+                builder: (context,updateState){
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: ListTile(
+                          leading: Radio<Choice>(
+                            value: Choice.walletTransfer,
+                            groupValue: choice,
+                            onChanged: (value) {
+                              updateState(() {
+                                choice = value!;
+                              });
+                            },
+                          ),
+                          title: const Text('Wallet Transfer'),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          leading: Radio<Choice>(
+                            value: Choice.accountTransfer,
+                            groupValue: choice,
+                            onChanged: (value) {
+                              updateState(() {
+                                choice = value!;
+                              });
+                            },
+                          ),
+                          title: const Text('Account Transfer'),
+                        ),
+                      ),
+                      Expanded(
+                        child: ListTile(
+                          leading: Radio<Choice>(
+                            value: Choice.withdraw,
+                            groupValue: choice,
+                            onChanged: (value) {
+                              updateState(() {
+                                choice = value!;
+                              });
+                            },
+                          ),
+                          title: const Text('Withdraw'),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: (){
+                if(amount>0){
+                  Navigator.pop(context);
+                  if(choice==Choice.accountTransfer){
+                    walletController.transferToAccount(amount,address);
+                  } else if (choice==Choice.walletTransfer){
+                    walletController.transferToWallet(amount,address);
+                  } else {
+                    walletController.withdrawFund(amount);
+                  }
+                } else {
+                  Dialogs.toast('Enter correct details to proceed');
+                }
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Themes.primaryColor,
+                primary: Colors.white,
+              ),
+              child: const Text(
+                "Transfer",
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final walletController = Get.put(WalletController());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -88,13 +263,15 @@ class _WalletPageState extends State<WalletPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            reqSendButton(
+            addTransferButton(
+              onPressed: ()=>depositFund(context, walletController),
               title: 'Deposit',
               icon: Icons.arrow_downward_rounded,
               color: Themes.primaryColor,
             ),
             const SizedBox(width: 10,),
-            reqSendButton(
+            addTransferButton(
+              onPressed: ()=>transferFund(context, walletController),
               title: 'Transfer',
               icon: Icons.arrow_upward_rounded,
               color: Themes.secondaryColor,
@@ -104,7 +281,7 @@ class _WalletPageState extends State<WalletPage> {
         const SizedBox(height: 30,),
         Expanded(
           child: PageView(
-            controller: widget.pageController,
+            controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
             children: const [
               RecentTransaction(),

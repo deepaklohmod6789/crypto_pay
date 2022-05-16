@@ -1,4 +1,5 @@
 import 'package:crypto_pay/constraints/themes.dart';
+import 'package:crypto_pay/services/dialogs.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
@@ -58,7 +59,7 @@ class Login extends StatelessWidget {
                   Row(
                     children: [
                       TextButton(
-                        onPressed: (){},
+                        onPressed: ()=>Dialogs.depositFund(context),
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                           side: const BorderSide(color: Themes.primaryColor),

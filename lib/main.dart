@@ -1,5 +1,8 @@
+import 'package:crypto_pay/login.dart';
 import 'package:crypto_pay/pages/homepage.dart';
+import 'package:crypto_pay/services/metamask_auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
@@ -11,7 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'CryptoPay',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -20,7 +23,16 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const HomePage(),
+      home: GetBuilder<MetaMaskAuthController>(
+        init: MetaMaskAuthController(),
+        builder: (walletController){
+          if(walletController.isConnected&&walletController.isInOperatingChain){
+            return const HomePage();
+          } else {
+            return const Login();
+          }
+        },
+      ),
     );
   }
 }

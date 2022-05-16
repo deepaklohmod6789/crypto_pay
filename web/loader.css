@@ -1,0 +1,50 @@
+body {
+    background: #F3F2EF;
+   }
+  .splash {
+    font-family: 'Lato', sans-serif;
+    background: #F3F2EF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .container{
+    display:flex;
+    flex-direction:row;
+  }
+  .name{
+    border-radius:5px;
+    color:black;
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+    font-weight:600;
+    font-size:3rem;
+  }
+  .loader{
+    position: absolute;
+    left:50%;
+    margin-top:1rem;
+    transform: translate(-50%, -50%);
+    height:5px;
+    width:15rem;
+    background-color:lightgrey;
+  }
+  .loading{
+    background-color: #4062FF;
+    width:5rem;
+    height:5px;
+    animation: animation 1.8s infinite;
+  }
+
+  @keyframes animation {
+      0% {
+          transform: translateX(0rem);
+      }
+      50% {
+          transform: translateX(10rem);
+      }
+      100% {
+          transform: translateX(0rem);
+      }
+    }
