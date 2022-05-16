@@ -59,7 +59,7 @@ class Login extends StatelessWidget {
                   Row(
                     children: [
                       TextButton(
-                        onPressed: ()=>Dialogs.depositFund(context),
+                        onPressed: ()=>Dialogs.createNFT(context),
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
                           side: const BorderSide(color: Themes.primaryColor),

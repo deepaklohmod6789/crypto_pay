@@ -5,27 +5,27 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 class IPFS{
-  final String _ipfsURL='http://127.0.0.1:5001';
-  final String _endpoint='/api/v0/add';
+  static const String _ipfsURL='http://127.0.0.1:5001';
+  static const _endpoint='/api/v0/add';
 
-  Future<String> getTokenUri()async{
-    Map<String,String> metaData={};
-    ImagePicker _picker=ImagePicker();
-    final XFile? imageFile = await _picker.pickImage(source: ImageSource.gallery);
-    if(imageFile!=null){
+  static Future<String?> getTokenUri(XFile imageFile,String name,String description)async{
+    try{
+      Map<String,String> metaData={};
       Uint8List imageBytes = await imageFile.readAsBytes();
       List<int> listData = imageBytes.cast();
       String imageUri=await _uploadToIpfs(listData,imageFile.name);
-      metaData['name']='Eagle';
-      metaData['description']='A beautiful eagle';
+      metaData['name']=name;
+      metaData['description']=description;
       metaData['image']=imageUri;
       String fileUri=await _uploadToIpfs(jsonEncode(metaData).codeUnits,'metaData.json');
       return fileUri;
+    } catch (e){
+      Dialogs.toast(e.toString());
+      return null;
     }
-    return '';
   }
 
-  Future<String> _uploadToIpfs(List<int> listData,String fileName)async{
+  static Future<String> _uploadToIpfs(List<int> listData,String fileName)async{
     Uri uri = Uri.parse(_ipfsURL+_endpoint);
     http.MultipartRequest request = http.MultipartRequest('POST', uri);
     http.MultipartFile multipartFile = http.MultipartFile.fromBytes('files', listData);

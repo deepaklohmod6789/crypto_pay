@@ -2,6 +2,7 @@ import 'package:flutter_web3/flutter_web3.dart';
 import 'package:get/get.dart';
 
 class MetaMaskAuthController extends GetxController {
+  String accountId='';
   bool get isInOperatingChain => currentChain == operatingChain;
 
   bool get isConnected => Ethereum.isSupported && currentAddress.isNotEmpty;
@@ -44,6 +45,7 @@ class MetaMaskAuthController extends GetxController {
       connectProvider();
 
       ethereum!.onAccountsChanged((accs) {
+        accountId=accs.first;
         clear();
       });
 
